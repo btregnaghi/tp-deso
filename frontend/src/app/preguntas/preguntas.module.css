@@ -1,0 +1,226 @@
+
+/* Contenedor general */
+
+.pagina {
+    min-height: 100vh;
+    background-color: #ffffff;
+    color: #222222;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Encabezado */
+
+.encabezado {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 25px 8%;
+    border-bottom: 1px solid #eeeeee;
+}
+
+.logo {
+    color: #174675;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.logo span {
+    display: block;
+    font-size: 12px;
+    font-weight: normal;
+}
+
+.navegacion {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.navegacion a {
+    color: #222222;
+    text-decoration: none;
+}
+
+.navegacion a:hover {
+    text-decoration: underline;
+}
+
+.consultor {
+    background-color: #44444e;
+    color: white;
+    padding: 6px 15px;
+    border-radius: 2px;
+}
+
+/* Contenido principal */
+
+.contenido {
+    width: 85%;
+    max-width: 1200px;
+    margin: 40px auto;
+}
+
+.contenido h1 {
+    font-size: 30px;
+    font-weight: normal;
+    margin-bottom: 30px;
+}
+
+/* Formulario de búsqueda */
+
+.formulario {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 70px;
+    row-gap: 25px;
+}
+
+.campo {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.campo label {
+    font-size: 16px;
+}
+
+.campo input,
+.campo select {
+    width: 100%;
+    max-width: 320px;
+    height: 35px;
+
+    padding: 5px 10px;
+
+    background-color: white;
+    color: #222222;
+    border: 1px solid #aaaaaa;
+    border-radius: 3px;
+
+    font-size: 14px;
+}
+
+/* Botones */
+
+.botonesBusqueda {
+    display: flex;
+    align-items: flex-end;
+    gap: 30px;
+}
+
+.pagina button {
+    min-width: 130px;
+    padding: 7px 20px;
+
+    background-color: #e5e5e5;
+    color: #222222;
+
+    border: 1px solid #aaaaaa;
+    border-radius: 3px;
+
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.pagina button:hover:not(:disabled) {
+    background-color: #d0d0d0;
+}
+
+.pagina button:disabled {
+    background-color: #eeeeee;
+    color: #aaaaaa;
+    cursor: not-allowed;
+}
+
+/* Mensajes del sistema */
+
+.mensaje {
+    margin-top: 20px;
+    padding: 10px;
+    color: #333333;
+    background-color: #f5f5f5;
+    border: 1px solid #cccccc;
+    border-radius: 3px;
+}
+
+/* Resultados de búsqueda */
+
+.resultados {
+    margin-top: 45px;
+    overflow-x: auto;
+}
+
+.resultados h2 {
+    font-size: 22px;
+    font-weight: normal;
+    margin-bottom: 15px;
+}
+
+/* Grilla de preguntas */
+
+.tabla {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15px;
+}
+
+.tabla th,
+.tabla td {
+    border: 1px solid #bbbbbb;
+    padding: 14px;
+    text-align: left;
+}
+
+.tabla th {
+    background-color: #e5e5e5;
+    font-weight: normal;
+}
+
+.tabla td:last-child {
+    width: 60px;
+    text-align: center;
+}
+
+.tabla input[type="radio"] {
+    accent-color: #174675;
+    cursor: pointer;
+}
+
+.filaSeleccionada {
+    background-color: #e1eaf5;
+}
+
+/* Acciones de gestión */
+
+.botonesGestion {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 25px;
+}
+
+/* Adaptación a pantallas pequeñas */
+
+@media (max-width: 700px) {
+
+    .formulario {
+        grid-template-columns: 1fr;
+    }
+
+    .encabezado {
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .botonesBusqueda,
+    .botonesGestion {
+        flex-wrap: wrap;
+    }
+
+    .campo input,
+    .campo select {
+        max-width: 100%;
+    }
+}
