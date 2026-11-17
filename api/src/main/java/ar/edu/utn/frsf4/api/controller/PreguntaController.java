@@ -3,6 +3,7 @@ package ar.edu.utn.frsf4.api.controller;
 import ar.edu.utn.frsf4.api.dto.PreguntaDTO;
 import ar.edu.utn.frsf4.api.service.PreguntaService;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -28,4 +29,16 @@ public class PreguntaController {
             nombre
         );
     }
+
+    @DeleteMapping("/{id}")
+public ResponseEntity<Void> darDeBajaPregunta(
+        @PathVariable("id") Long id) {
+
+    // Usuario provisional hasta implementar la autenticación.
+    String usuarioResponsable = "CONSULTOR_PRUEBA";
+
+    preguntaService.darDeBajaPregunta(id, usuarioResponsable);
+
+    return ResponseEntity.noContent().build();
+}
 }

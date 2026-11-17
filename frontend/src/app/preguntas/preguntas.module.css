@@ -1,5 +1,7 @@
 
-/* Contenedor general */
+/* ==========================================
+   ESTILOS GENERALES
+   ========================================== */
 
 .pagina {
     min-height: 100vh;
@@ -8,13 +10,15 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 
-/* Encabezado */
+
+/* ==========================================
+   ENCABEZADO
+   ========================================== */
 
 .encabezado {
     display: flex;
     justify-content: space-between;
     align-items: center;
-
     padding: 25px 8%;
     border-bottom: 1px solid #eeeeee;
 }
@@ -48,12 +52,15 @@
 
 .consultor {
     background-color: #44444e;
-    color: white;
+    color: #ffffff;
     padding: 6px 15px;
     border-radius: 2px;
 }
 
-/* Contenido principal */
+
+/* ==========================================
+   CONTENIDO PRINCIPAL
+   ========================================== */
 
 .contenido {
     width: 85%;
@@ -67,7 +74,10 @@
     margin-bottom: 30px;
 }
 
-/* Formulario de búsqueda */
+
+/* ==========================================
+   CU020 - FORMULARIO DE BÚSQUEDA
+   ========================================== */
 
 .formulario {
     display: grid;
@@ -91,24 +101,33 @@
     width: 100%;
     max-width: 320px;
     height: 35px;
-
     padding: 5px 10px;
 
-    background-color: white;
+    background-color: #ffffff;
     color: #222222;
+
     border: 1px solid #aaaaaa;
     border-radius: 3px;
 
     font-size: 14px;
 }
 
-/* Botones */
+.campo input:focus,
+.campo select:focus {
+    outline: 1px solid #174675;
+    border-color: #174675;
+}
 
 .botonesBusqueda {
     display: flex;
     align-items: flex-end;
     gap: 30px;
 }
+
+
+/* ==========================================
+   BOTONES GENERALES
+   ========================================== */
 
 .pagina button {
     min-width: 130px;
@@ -134,18 +153,31 @@
     cursor: not-allowed;
 }
 
-/* Mensajes del sistema */
+.pagina button:focus-visible {
+    outline: 2px solid #174675;
+    outline-offset: 3px;
+}
+
+
+/* ==========================================
+   MENSAJES GENERALES
+   ========================================== */
 
 .mensaje {
     margin-top: 20px;
     padding: 10px;
+
     color: #333333;
     background-color: #f5f5f5;
+
     border: 1px solid #cccccc;
     border-radius: 3px;
 }
 
-/* Resultados de búsqueda */
+
+/* ==========================================
+   CU020 - GRILLA DE RESULTADOS
+   ========================================== */
 
 .resultados {
     margin-top: 45px;
@@ -157,8 +189,6 @@
     font-weight: normal;
     margin-bottom: 15px;
 }
-
-/* Grilla de preguntas */
 
 .tabla {
     width: 100%;
@@ -192,8 +222,6 @@
     background-color: #e1eaf5;
 }
 
-/* Acciones de gestión */
-
 .botonesGestion {
     display: flex;
     justify-content: center;
@@ -201,7 +229,196 @@
     margin-top: 25px;
 }
 
-/* Adaptación a pantallas pequeñas */
+
+/* ==========================================
+   CU023 - VENTANAS MODALES
+   ========================================== */
+
+.modal {
+    position: fixed;
+    inset: 0;
+
+    margin: auto;
+    padding: 0;
+
+    width: 90%;
+    max-width: 460px;
+    max-height: 90vh;
+
+    overflow-y: auto;
+    box-sizing: border-box;
+
+    background-color: #ffffff;
+    color: #222222;
+
+    border: 1px solid #777777;
+    border-radius: 2px;
+
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15);
+
+    text-align: center;
+}
+
+.modal::backdrop {
+    background-color: rgba(255, 255, 255, 0.60);
+}
+
+
+/* ==========================================
+   CU023 - VENTANA DE ADVERTENCIA
+   ========================================== */
+
+.modalAdvertencia {
+    border-color: #777777;
+}
+
+.cabeceraAdvertencia {
+    position: relative;
+    padding: 6px 45px;
+
+    background-color: #ffca40;
+
+    border-bottom: 1px solid #777777;
+}
+
+.iconoAdvertencia {
+    color: #eea500;
+    flex-shrink: 0;
+}
+
+
+/* ==========================================
+   CU023 - VENTANA DE OPERACIÓN EXITOSA
+   ========================================== */
+
+.modalExito {
+    border-color: #777777;
+}
+
+.cabeceraExito {
+    position: relative;
+    padding: 6px 45px;
+
+    background-color: #97d56b;
+
+    border-bottom: 1px solid #777777;
+}
+
+.iconoExito {
+    color: #79c64b;
+    flex-shrink: 0;
+}
+
+
+/* ==========================================
+   TÍTULOS Y DECORACIÓN DE VENTANAS
+   ========================================== */
+
+.modal h2 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: normal;
+    color: #222222;
+}
+
+.decoracionVentana {
+    position: absolute;
+    left: 8px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    font-size: 9px;
+    color: #555555;
+}
+
+
+/* ==========================================
+   CONTENIDO DE LAS VENTANAS
+   ========================================== */
+
+.cuerpoModal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding: 15px 30px 30px;
+    min-height: 210px;
+
+    box-sizing: border-box;
+}
+
+.modal p {
+    font-size: 15px;
+    line-height: 1.5;
+    margin: 15px 0;
+}
+
+
+/* ==========================================
+   BOTONES DE LAS VENTANAS
+   ========================================== */
+
+.botonesModal {
+    display: flex;
+    justify-content: center;
+    gap: 35px;
+
+    margin-top: auto;
+    padding-top: 20px;
+
+    flex-wrap: wrap;
+}
+
+.modal .botonesModal button {
+    min-width: 125px;
+    padding: 6px 20px;
+
+    font-size: 14px;
+    border-radius: 2px;
+}
+
+.modal button.botonEliminar:not(:disabled) {
+    background-color: #999999;
+    color: #222222;
+}
+
+.modal button.botonEliminar:hover:not(:disabled) {
+    background-color: #858585;
+}
+
+
+/* ==========================================
+   INDICACIÓN DE REGRESO AL CU020
+   ========================================== */
+
+.modal button.indicacionModal {
+    min-width: 0;
+    padding: 0;
+    margin: 15px 0;
+
+    border: none;
+    border-radius: 0;
+
+    background-color: transparent;
+    color: #222222;
+
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 1.5;
+
+    cursor: pointer;
+}
+
+.modal button.indicacionModal:hover:not(:disabled) {
+    background-color: transparent;
+    text-decoration: underline;
+}
+
+
+/* ==========================================
+   DISEÑO RESPONSIVO
+   ========================================== */
 
 @media (max-width: 700px) {
 
@@ -223,4 +440,13 @@
     .campo select {
         max-width: 100%;
     }
+
+    .cuerpoModal {
+        padding: 15px 20px 25px;
+    }
+
+    .botonesModal {
+        gap: 15px;
+    }
+
 }

@@ -6,6 +6,10 @@ import org.springframework.stereotype.Service;
 import ar.edu.utn.frsf4.api.dto.PreguntaDTO;
 import ar.edu.utn.frsf4.api.dto.OpcionDTO;
 import org.springframework.transaction.annotation.Transactional;
+import ar.edu.utn.frsf4.api.model.RegistroAuditoria;
+import ar.edu.utn.frsf4.api.repository.RegistroAuditoriaRepository;
+import java.time.LocalDateTime;
+import java.util.NoSuchElementException;
 
 import java.util.List;
 
@@ -13,11 +17,15 @@ import java.util.List;
 public class PreguntaService {
 
     private final PreguntaRepository preguntaRepository;
+    private final RegistroAuditoriaRepository registroAuditoriaRepository;
 
-    public PreguntaService(PreguntaRepository preguntaRepository) {
-        this.preguntaRepository = preguntaRepository;
-    }
+public PreguntaService(
+        PreguntaRepository preguntaRepository,
+        RegistroAuditoriaRepository registroAuditoriaRepository) {
 
+    this.preguntaRepository = preguntaRepository;
+    this.registroAuditoriaRepository = registroAuditoriaRepository;
+}
     public List<Pregunta> obtenerPreguntasActivas() {
         return preguntaRepository.findByFechaBajaIsNull();
     }
@@ -96,4 +104,36 @@ public List<PreguntaDTO> buscarPreguntas(
 
     return dto;
 }
+
+@Transactional
+public void darDeBajaPregunta(
+        Long idPregunta, String usuarioResponsable) {
+
+    if (usuarioResponsable == null || usuarioResponsable.isBlank()) {
+        throw new IllegalArgumentException(
+            "Debe identificarse al usuario responsable."
+        );
+    }
+
+    Pregunta pregunta = preguntaRepository.findById(idPregunta)
+        .orElseThrow(() -> new NoSuchElementException(
+            "No se encontró la pregunta seleccionada."
+        ));
+
+    LocalDateTime fechaHora = LocalDateTime.now();
+
+    pregunta.darDeBaja(fechaHora.toLocalDate());
+
+    preguntaRepository.save(pregunta);
+
+    RegistroAuditoria registro = new RegistroAuditoria(
+        fechaHora.toLocalDate(),
+        fechaHora.toLocalTime(),
+        usuarioResponsable,
+        pregunta
+    );
+
+    registroAuditoriaRepository.save(registro);
+}
+
 }

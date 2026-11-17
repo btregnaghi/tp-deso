@@ -76,4 +76,20 @@ public class Pregunta {
     public void agregarOpcion(Opcion opcion) {
         this.opciones.add(opcion);
     }
+
+    public boolean estaActiva() {
+    return this.fechaBaja == null;
+}
+
+public void darDeBaja(LocalDate fechaBaja) {
+
+    if (!estaActiva()) {
+        throw new IllegalStateException(
+            "La pregunta ya se encuentra dada de baja."
+        );
+    }
+
+    this.fechaBaja = fechaBaja;
+}
+
 }
