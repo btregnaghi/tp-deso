@@ -1,0 +1,720 @@
+/* ==========================================
+   CONTENEDOR GENERAL
+   ========================================== */
+
+.contenedor {
+    min-height: 100vh;
+
+    background-color: #ffffff;
+    color: #222222;
+
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+
+    color-scheme: light;
+}
+
+.contenedor * {
+    box-sizing: border-box;
+}
+
+
+/* ==========================================
+   ENCABEZADO
+   ========================================== */
+
+.encabezado {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+
+    gap: 20px;
+    padding: 22px 45px;
+
+    border-bottom: 1px solid #d5d5d5;
+    background-color: #ffffff;
+}
+
+.encabezado h1 {
+    margin: 0;
+
+    color: #174675;
+
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.encabezado p {
+    margin: 4px 0 0;
+
+    color: #174675;
+
+    font-size: 13px;
+}
+
+.encabezado nav {
+    display: flex;
+    align-items: center;
+
+    gap: 18px;
+}
+
+.encabezado nav a {
+    color: #333333;
+
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.encabezado nav a:hover {
+    color: #174675;
+
+    text-decoration: underline;
+}
+
+.encabezado nav span {
+    padding: 7px 14px;
+
+    background-color: #333333;
+    color: #ffffff;
+
+    border-radius: 3px;
+}
+
+
+/* ==========================================
+   CONTENIDO PRINCIPAL
+   ========================================== */
+
+.contenido {
+    width: 100%;
+    max-width: 1400px;
+
+    margin: 0 auto;
+    padding: 35px 45px;
+}
+
+.contenido h2 {
+    margin: 0 0 28px;
+
+    font-size: 24px;
+    font-weight: 600;
+}
+
+
+/* ==========================================
+   FORMULARIO DE BÚSQUEDA
+   ========================================== */
+
+.filtros {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr)) auto;
+
+    align-items: start;
+
+    gap: 20px;
+
+    max-width: 1050px;
+    margin-bottom: 35px;
+}
+
+.filtros > button {
+    margin-top: 22px;
+}
+
+
+/* ==========================================
+   ERROR GENERAL DEL FORMULARIO
+   ========================================== */
+
+.errorFormulario {
+    grid-column: 1 / -1;
+
+    display: flex;
+    align-items: center;
+
+    gap: 7px;
+
+    color: #e52222;
+
+    font-size: 12px;
+    line-height: 1.4;
+
+    margin-top: -8px;
+}
+
+.errorFormulario svg {
+    flex-shrink: 0;
+}
+
+
+/* ==========================================
+   BOTONES GENERALES
+   ========================================== */
+
+.contenido button,
+.botonCancelar {
+    min-width: 110px;
+    min-height: 36px;
+
+    padding: 8px 20px;
+
+    border: 1px solid #b5b5b5;
+    border-radius: 3px;
+
+    background-color: #e9e9e9;
+    color: #222222;
+
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+
+    cursor: pointer;
+
+    transition: background-color 0.15s ease;
+}
+
+.contenido button:hover:not(:disabled),
+.botonCancelar:hover {
+    background-color: #d8d8d8;
+}
+
+.contenido button:active:not(:disabled),
+.botonCancelar:active {
+    background-color: #c8c8c8;
+}
+
+.contenido button:focus-visible,
+.botonCancelar:focus-visible {
+    outline: 2px solid #174675;
+    outline-offset: 2px;
+}
+
+.contenido button:disabled {
+    background-color: #eeeeee;
+    color: #999999;
+
+    cursor: not-allowed;
+}
+
+.botonCancelar {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    text-decoration: none;
+}
+
+
+/* ==========================================
+   PRIMERA PANTALLA
+   DISTRIBUCIÓN DE LAS GRILLAS
+   ========================================== */
+
+.grillas {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    align-items: start;
+
+    gap: 45px;
+    margin-top: 40px;
+}
+
+.grilla {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    min-width: 0;
+}
+
+
+/* ==========================================
+   TÍTULOS DE LAS GRILLAS
+   ========================================== */
+
+.grilla h3,
+.grillaCompetencias h3,
+.grillaClaves h3 {
+    margin: 0 0 12px;
+
+    font-size: 16px;
+    font-weight: 500;
+}
+
+
+/* ==========================================
+   ESTILOS COMUNES DE LAS TABLAS
+   ========================================== */
+
+.grilla table,
+.grillaCompetencias table,
+.grillaClaves table {
+    display: block;
+
+    width: 100%;
+
+    overflow: auto;
+
+    table-layout: fixed;
+    border-collapse: collapse;
+
+    border: 1px solid #c8c8c8;
+
+    background-color: #ffffff;
+
+    font-size: 13px;
+}
+
+
+/* ==========================================
+   ALTURA DE LAS TABLAS
+   ========================================== */
+
+.grilla table {
+    height: 240px;
+}
+
+.grillaCompetencias table {
+    height: 180px;
+}
+
+.grillaClaves table {
+    height: 200px;
+}
+
+
+/* ==========================================
+   ESTRUCTURA INTERNA DE LAS TABLAS
+   ========================================== */
+
+.grilla thead,
+.grilla tbody,
+.grillaCompetencias thead,
+.grillaCompetencias tbody,
+.grillaClaves thead,
+.grillaClaves tbody {
+    display: table;
+
+    width: 100%;
+
+    table-layout: fixed;
+}
+
+
+/* ==========================================
+   ENCABEZADOS FIJOS
+   ========================================== */
+
+.grilla thead,
+.grillaCompetencias thead,
+.grillaClaves thead {
+    position: sticky;
+    top: 0;
+
+    z-index: 1;
+
+    background-color: #e3e3e3;
+}
+
+
+/* ==========================================
+   CELDAS DE LAS TABLAS
+   ========================================== */
+
+.grilla th,
+.grilla td,
+.grillaCompetencias th,
+.grillaCompetencias td,
+.grillaClaves th,
+.grillaClaves td {
+    height: 34px;
+
+    padding: 7px 10px;
+
+    border-right: 1px solid #d8d8d8;
+    border-bottom: 1px solid #d8d8d8;
+
+    text-align: left;
+
+    overflow-wrap: anywhere;
+}
+
+.grilla th,
+.grillaCompetencias th,
+.grillaClaves th {
+    background-color: #e3e3e3;
+
+    font-weight: 600;
+}
+
+
+/* ==========================================
+   COLORES DE LAS FILAS
+   ========================================== */
+
+.grilla tbody tr:nth-child(even),
+.grillaCompetencias tbody tr:nth-child(even),
+.grillaClaves tbody tr:nth-child(even) {
+    background-color: #f8f8f8;
+}
+
+.grilla tbody tr:hover,
+.grillaCompetencias tbody tr:hover,
+.grillaClaves tbody tr:hover {
+    background-color: #edf3f8;
+}
+
+
+/* ==========================================
+   ÚLTIMA COLUMNA
+   ========================================== */
+
+.grilla th:last-child,
+.grilla td:last-child,
+.grillaCompetencias th:last-child,
+.grillaCompetencias td:last-child,
+.grillaClaves th:last-child,
+.grillaClaves td:last-child {
+    border-right: none;
+}
+
+
+/* ==========================================
+   COLUMNAS DE LAS GRILLAS DE BÚSQUEDA
+   ========================================== */
+
+.grilla th:nth-child(1),
+.grilla td:nth-child(1) {
+    width: 32%;
+}
+
+.grilla th:nth-child(2),
+.grilla td:nth-child(2) {
+    width: 32%;
+}
+
+.grilla th:nth-child(3),
+.grilla td:nth-child(3) {
+    width: 23%;
+}
+
+.grilla th:last-child,
+.grilla td:last-child {
+    width: 13%;
+
+    text-align: center;
+}
+
+
+/* ==========================================
+   CHECKBOXES
+   ========================================== */
+
+.grilla input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+
+    margin: 0;
+
+    vertical-align: middle;
+
+    accent-color: #174675;
+
+    cursor: pointer;
+}
+
+.grilla input[type="checkbox"]:disabled {
+    cursor: not-allowed;
+}
+
+
+/* ==========================================
+   BOTONES AGREGAR Y QUITAR
+   ========================================== */
+
+.grilla button {
+    margin-top: 14px;
+}
+
+
+/* ==========================================
+   MENSAJES INFORMATIVOS
+   ========================================== */
+
+.grilla p,
+.mensajeEstado {
+    margin: 10px 0 0;
+
+    color: #666666;
+
+    font-size: 13px;
+}
+
+
+/* ==========================================
+   BOTÓN SIGUIENTE - PRIMERA PANTALLA
+   ========================================== */
+
+.acciones {
+    display: flex;
+    justify-content: flex-end;
+
+    margin-top: 35px;
+}
+
+.acciones button {
+    min-width: 150px;
+}
+
+
+/* ==========================================
+   SEGUNDA PANTALLA
+   DATOS DE LA FUNCIÓN LABORAL
+   ========================================== */
+
+.datosPuesto {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    align-items: start;
+
+    gap: 25px;
+
+    max-width: 950px;
+    margin-bottom: 25px;
+}
+
+
+/* ==========================================
+   GRILLA DE COMPETENCIAS
+   ========================================== */
+
+.grillaCompetencias {
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+
+    margin-top: 25px;
+}
+
+.grillaCompetencias th:first-child,
+.grillaCompetencias td:first-child {
+    width: 75%;
+}
+
+.grillaCompetencias th:last-child,
+.grillaCompetencias td:last-child {
+    width: 25%;
+
+    text-align: center;
+}
+
+
+/* ==========================================
+   BOTÓN SIGUIENTE - FUNCIÓN LABORAL
+   ========================================== */
+
+.accionesPuesto {
+    display: flex;
+    justify-content: flex-end;
+
+    margin-top: 15px;
+}
+
+.accionesPuesto button {
+    min-width: 150px;
+}
+
+
+/* ==========================================
+   GRILLA DE CANDIDATOS Y CLAVES
+   ========================================== */
+
+.grillaClaves {
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+
+    margin-top: 30px;
+
+    min-width: 0;
+}
+
+
+/* APELLIDO */
+
+.grillaClaves th:nth-child(1),
+.grillaClaves td:nth-child(1) {
+    width: 23%;
+}
+
+
+/* NOMBRE */
+
+.grillaClaves th:nth-child(2),
+.grillaClaves td:nth-child(2) {
+    width: 23%;
+}
+
+
+/* TIPO DE DOCUMENTO */
+
+.grillaClaves th:nth-child(3),
+.grillaClaves td:nth-child(3) {
+    width: 15%;
+
+    text-align: center;
+}
+
+
+/* NÚMERO DE DOCUMENTO */
+
+.grillaClaves th:nth-child(4),
+.grillaClaves td:nth-child(4) {
+    width: 20%;
+
+    text-align: center;
+}
+
+
+/* CLAVE DE INGRESO */
+
+.grillaClaves th:nth-child(5),
+.grillaClaves td:nth-child(5) {
+    width: 19%;
+
+    text-align: center;
+}
+
+.grillaClaves td:nth-child(5) {
+    font-family: Consolas, monospace;
+
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+
+/* ==========================================
+   BOTONES CANCELAR Y FINALIZAR
+   ========================================== */
+
+.accionesEtapa {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+
+    gap: 12px;
+
+    margin-top: 25px;
+}
+
+.accionesEtapa button,
+.accionesEtapa .botonCancelar {
+    min-width: 150px;
+}
+
+
+/* ==========================================
+   DISEÑO RESPONSIVO
+   PANTALLAS MEDIANAS
+   ========================================== */
+
+@media (max-width: 1000px) {
+
+    .grillas {
+        gap: 20px;
+    }
+
+    .contenido {
+        padding: 25px;
+    }
+
+    .filtros {
+        gap: 12px;
+    }
+
+    .datosPuesto {
+        gap: 20px;
+    }
+
+}
+
+
+/* ==========================================
+   DISEÑO RESPONSIVO
+   PANTALLAS PEQUEÑAS
+   ========================================== */
+
+@media (max-width: 768px) {
+
+    .encabezado {
+        padding: 18px 20px;
+
+        align-items: flex-start;
+    }
+
+    .contenido {
+        padding: 25px 20px;
+    }
+
+    .filtros {
+        grid-template-columns: 1fr;
+    }
+
+    .filtros > button {
+        justify-self: start;
+
+        margin-top: 0;
+    }
+
+    .errorFormulario {
+        margin-top: 0;
+    }
+
+    .grillas {
+        grid-template-columns: 1fr;
+
+        gap: 30px;
+    }
+
+    .grilla table {
+        height: 220px;
+    }
+
+    .datosPuesto {
+        grid-template-columns: 1fr;
+
+        gap: 15px;
+    }
+
+    .grillaCompetencias table {
+        height: 160px;
+    }
+
+    .grillaClaves table {
+        height: 200px;
+    }
+
+    .grillaClaves thead,
+    .grillaClaves tbody {
+        min-width: 650px;
+    }
+
+    .accionesEtapa button,
+    .accionesEtapa .botonCancelar {
+        min-width: 110px;
+    }
+
+}

@@ -1,14 +1,18 @@
 
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
+
+import CampoFormulario from "../../components/CampoFormulario";
+import VentanaModal from "../../components/VentanaModal";
+
 import styles from "./preguntas.module.css";
 
 export default function GestionarPreguntas() {
 
     // ==========================================
-    // Estados correspondientes al CU020
+    // CU020 - ESTADOS DE BÚSQUEDA
     // ==========================================
 
     const [competencias, setCompetencias] = useState([]);
@@ -27,18 +31,45 @@ export default function GestionarPreguntas() {
     const [ultimosCriterios, setUltimosCriterios] = useState(null);
 
     // ==========================================
-    // Estados correspondientes al CU023
+    // ERRORES DE VALIDACIÓN
+    // ==========================================
+
+    const [errores, setErrores] = useState({
+        nombre: "",
+        general: ""
+    });
+
+    // ==========================================
+    // CU023 - ESTADOS DE ELIMINACIÓN
     // ==========================================
 
     const [preguntaAEliminar, setPreguntaAEliminar] = useState(null);
     const [eliminando, setEliminando] = useState(false);
     const [mensajeEliminacion, setMensajeEliminacion] = useState("");
 
-    const dialogoConfirmacion = useRef(null);
-    const dialogoExito = useRef(null);
+    // ==========================================
+    // VENTANAS DE ERROR
+    // ==========================================
+
+    const [ventana, setVentana] = useState(null);
+
+    function mostrarMensaje(mensaje, tipo = "error") {
+
+        setVentana({
+            tipo,
+            mensaje
+        });
+
+    }
+
+    function cerrarMensaje() {
+
+        setVentana(null);
+
+    }
 
     // ==========================================
-    // Cargar competencias y factores
+    // CARGAR COMPETENCIAS Y FACTORES
     // ==========================================
 
     useEffect(() => {
@@ -53,18 +84,34 @@ export default function GestionarPreguntas() {
                         fetch("/api/factores")
                     ]);
 
-                if (!respuestaCompetencias.ok || !respuestaFactores.ok) {
-                    throw new Error("No se pudieron cargar los filtros.");
+                if (
+                    !respuestaCompetencias.ok ||
+                    !respuestaFactores.ok
+                ) {
+
+                    throw new Error(
+                        "No se pudieron cargar los filtros."
+                    );
+
                 }
 
-                setCompetencias(await respuestaCompetencias.json());
-                setFactores(await respuestaFactores.json());
+                setCompetencias(
+                    await respuestaCompetencias.json()
+                );
+
+                setFactores(
+                    await respuestaFactores.json()
+                );
 
             } catch (error) {
 
-                setMensaje(error.message);
+                setVentana({
+                    tipo: "error",
+                    mensaje: error.message
+                });
 
             }
+
         }
 
         cargarDatos();
@@ -72,56 +119,7 @@ export default function GestionarPreguntas() {
     }, []);
 
     // ==========================================
-    // Controlar la ventana de advertencia
-    // ==========================================
-
-    useEffect(() => {
-
-        const dialogo = dialogoConfirmacion.current;
-
-        if (!dialogo) {
-            return;
-        }
-
-        if (preguntaAEliminar && !dialogo.open) {
-
-            dialogo.showModal();
-
-        } else if (!preguntaAEliminar && dialogo.open) {
-
-            dialogo.close();
-
-        }
-
-    }, [preguntaAEliminar]);
-
-    // ==========================================
-    // Controlar la ventana de operación exitosa
-    // ==========================================
-
-    useEffect(() => {
-
-        const dialogo = dialogoExito.current;
-
-        if (!dialogo) {
-            return;
-        }
-
-        if (mensajeEliminacion && !dialogo.open) {
-
-            dialogo.showModal();
-            dialogo.focus();
-
-        } else if (!mensajeEliminacion && dialogo.open) {
-
-            dialogo.close();
-
-        }
-
-    }, [mensajeEliminacion]);
-
-    // ==========================================
-    // Filtrar factores según la competencia
+    // FILTRAR FACTORES SEGÚN LA COMPETENCIA
     // ==========================================
 
     const competenciaSeleccionada = competencias.find(
@@ -130,20 +128,21 @@ export default function GestionarPreguntas() {
 
     const factoresDisponibles = competenciaSeleccionada
         ? factores.filter(
-            item => item.competenciaId === competenciaSeleccionada.id
+            item =>
+                item.competenciaId === competenciaSeleccionada.id
         )
         : factores;
 
     // ==========================================
-    // CU020 - Gestionar preguntas
+    // VALIDAR FILTROS DE BÚSQUEDA
     // ==========================================
 
-    async function ejecutarBusqueda(criterios) {
+    function validarFiltros(criterios) {
 
-        setMensaje("");
-        setPreguntaSeleccionada(null);
-        setPreguntas([]);
-        setBusquedaRealizada(false);
+        const nuevosErrores = {
+            nombre: "",
+            general: ""
+        };
 
         if (
             !criterios.competencia &&
@@ -151,10 +150,56 @@ export default function GestionarPreguntas() {
             !criterios.nombre.trim()
         ) {
 
-            setMensaje("Debe ingresar al menos un criterio de búsqueda.");
+            nuevosErrores.general =
+                "Debe ingresar al menos un criterio de búsqueda.";
+
+        }
+
+        if (criterios.nombre.trim().length > 50) {
+
+            nuevosErrores.nombre =
+                "El nombre de pregunta no puede superar los 50 caracteres.";
+
+        }
+
+        setErrores(nuevosErrores);
+
+        return Object.values(nuevosErrores).every(
+            error => error === ""
+        );
+
+    }
+
+    // ==========================================
+    // LIMPIAR ERRORES DEL FORMULARIO
+    // ==========================================
+
+    function limpiarErrorCampo(campo) {
+
+        setErrores(anteriores => ({
+            ...anteriores,
+            ...(campo === "nombre" ? { nombre: "" } : {}),
+            general: ""
+        }));
+
+    }
+
+    // ==========================================
+    // CU020 - EJECUTAR BÚSQUEDA
+    // ==========================================
+
+    async function ejecutarBusqueda(criterios) {
+
+        if (!validarFiltros(criterios)) {
+
             return;
 
         }
+
+        setMensaje("");
+        setPreguntaSeleccionada(null);
+        setPreguntas([]);
+        setBusquedaRealizada(false);
 
         const parametros = new URLSearchParams();
 
@@ -198,10 +243,13 @@ export default function GestionarPreguntas() {
 
             if (!respuesta.ok) {
 
-                const error = await respuesta.json().catch(() => ({}));
+                const error = await respuesta
+                    .json()
+                    .catch(() => ({}));
 
                 throw new Error(
-                    error.mensaje || "Error al buscar preguntas."
+                    error.mensaje ||
+                    "Error al buscar preguntas."
                 );
 
             }
@@ -214,26 +262,41 @@ export default function GestionarPreguntas() {
 
             if (resultado.length === 0) {
 
-                setMensaje("No se encontraron preguntas.");
+                setMensaje(
+                    "No se encontraron preguntas."
+                );
 
             }
 
         } catch (error) {
 
-            setMensaje(error.message);
+            mostrarMensaje(
+                error.message ||
+                "No se pudo realizar la búsqueda.",
+                "error"
+            );
 
         } finally {
 
             setBuscando(false);
 
         }
+
     }
 
-    // Buscar preguntas desde el formulario
+    // ==========================================
+    // BUSCAR PREGUNTAS DESDE EL FORMULARIO
+    // ==========================================
 
     async function buscarPreguntas(evento) {
 
         evento.preventDefault();
+
+        if (buscando || eliminando) {
+
+            return;
+
+        }
 
         await ejecutarBusqueda({
             competencia,
@@ -244,10 +307,8 @@ export default function GestionarPreguntas() {
     }
 
     // ==========================================
-    // CU023 - Dar de baja una pregunta
+    // CU023 - SOLICITAR ELIMINACIÓN
     // ==========================================
-
-    // Solicitar la eliminación
 
     function solicitarEliminacion() {
 
@@ -266,7 +327,9 @@ export default function GestionarPreguntas() {
 
     }
 
-    // Cancelar la eliminación
+    // ==========================================
+    // CU023 - CANCELAR ELIMINACIÓN
+    // ==========================================
 
     function cancelarEliminacion() {
 
@@ -280,7 +343,9 @@ export default function GestionarPreguntas() {
 
     }
 
-    // Confirmar la eliminación
+    // ==========================================
+    // CU023 - CONFIRMAR ELIMINACIÓN
+    // ==========================================
 
     async function confirmarEliminacion() {
 
@@ -304,10 +369,13 @@ export default function GestionarPreguntas() {
 
             if (!respuesta.ok) {
 
-                const error = await respuesta.json().catch(() => ({}));
+                const error = await respuesta
+                    .json()
+                    .catch(() => ({}));
 
                 throw new Error(
-                    error.mensaje || "Error al eliminar la pregunta."
+                    error.mensaje ||
+                    "Error al eliminar la pregunta."
                 );
 
             }
@@ -321,17 +389,25 @@ export default function GestionarPreguntas() {
 
         } catch (error) {
 
-            setMensaje(error.message);
             setPreguntaAEliminar(null);
+
+            mostrarMensaje(
+                error.message ||
+                "No se pudo eliminar la pregunta.",
+                "error"
+            );
 
         } finally {
 
             setEliminando(false);
 
         }
+
     }
 
-    // Finalizar el CU023 y actualizar la grilla
+    // ==========================================
+    // CU023 - FINALIZAR Y ACTUALIZAR GRILLA
+    // ==========================================
 
     async function finalizarEliminacion() {
 
@@ -345,24 +421,35 @@ export default function GestionarPreguntas() {
 
         if (ultimosCriterios) {
 
-            setCompetencia(ultimosCriterios.competencia);
-            setFactor(ultimosCriterios.factor);
-            setNombre(ultimosCriterios.nombre);
+            setCompetencia(
+                ultimosCriterios.competencia
+            );
 
-            await ejecutarBusqueda(ultimosCriterios);
+            setFactor(
+                ultimosCriterios.factor
+            );
+
+            setNombre(
+                ultimosCriterios.nombre
+            );
+
+            await ejecutarBusqueda(
+                ultimosCriterios
+            );
 
         }
+
     }
 
     // ==========================================
-    // Interfaz gráfica
+    // INTERFAZ GRÁFICA
     // ==========================================
 
     return (
 
         <div className={styles.pagina}>
 
-            {/* Encabezado */}
+            {/* ENCABEZADO */}
 
             <header className={styles.encabezado}>
 
@@ -381,131 +468,135 @@ export default function GestionarPreguntas() {
                     <Link href="/preguntas">Preguntas</Link>
 
                     <span className={styles.consultor}>
+
                         Consultor
+
                     </span>
 
                 </nav>
 
             </header>
 
-            {/* Contenido principal */}
+            {/* CONTENIDO PRINCIPAL */}
 
             <main className={styles.contenido}>
 
                 <h1>Gestionar preguntas</h1>
 
-                {/* Formulario de búsqueda */}
+                {/* FORMULARIO DE BÚSQUEDA */}
 
                 <form
                     className={styles.formulario}
                     onSubmit={buscarPreguntas}
+                    noValidate
                 >
 
-                    {/* Competencia */}
+                    {/* COMPETENCIA */}
 
-                    <div className={styles.campo}>
+                    <div className={styles.campoFiltro}>
 
-                        <label htmlFor="competencia">
-                            Competencia
-                        </label>
-
-                        <select
+                        <CampoFormulario
                             id="competencia"
-                            value={competencia}
-                            onChange={e => {
+                            etiqueta="Competencia"
+                            tipo="select"
+                            valor={competencia}
+                            placeholder="Seleccione una competencia"
+                            deshabilitado={buscando}
+                            opciones={competencias.map(item => ({
+                                valor: item.nombre,
+                                etiqueta: item.nombre
+                            }))}
+                            onChange={evento => {
 
-                                setCompetencia(e.target.value);
+                                setCompetencia(
+                                    evento.target.value
+                                );
+
                                 setFactor("");
 
+                                limpiarErrorCampo(
+                                    "competencia"
+                                );
+
                             }}
-                        >
-
-                            <option value="">
-                                Seleccione una competencia
-                            </option>
-
-                            {competencias.map(item => (
-
-                                <option
-                                    key={item.id}
-                                    value={item.nombre}
-                                >
-                                    {item.nombre}
-                                </option>
-
-                            ))}
-
-                        </select>
-
-                    </div>
-
-                    {/* Nombre de pregunta */}
-
-                    <div className={styles.campo}>
-
-                        <label htmlFor="nombre">
-                            Nombre de pregunta
-                        </label>
-
-                        <input
-                            id="nombre"
-                            type="text"
-                            placeholder="Ingrese nombre de la pregunta"
-                            value={nombre}
-                            onChange={e => setNombre(e.target.value)}
                         />
 
                     </div>
 
-                    {/* Factor */}
+                    {/* NOMBRE DE PREGUNTA */}
 
-                    <div className={styles.campo}>
+                    <div className={styles.campoFiltro}>
 
-                        <label htmlFor="factor">
-                            Factor
-                        </label>
+                        <CampoFormulario
+                            id="nombre"
+                            etiqueta="Nombre de pregunta"
+                            valor={nombre}
+                            placeholder="Ingrese nombre de la pregunta"
+                            error={errores.nombre}
+                            deshabilitado={buscando}
+                            onChange={evento => {
 
-                        <select
-                            id="factor"
-                            value={factor}
-                            onChange={e => setFactor(e.target.value)}
-                        >
+                                setNombre(
+                                    evento.target.value
+                                );
 
-                            <option value="">
-                                Seleccione un factor
-                            </option>
+                                limpiarErrorCampo(
+                                    "nombre"
+                                );
 
-                            {factoresDisponibles.map(item => (
-
-                                <option
-                                    key={item.id}
-                                    value={item.nombre}
-                                >
-                                    {item.nombre}
-                                </option>
-
-                            ))}
-
-                        </select>
+                            }}
+                        />
 
                     </div>
 
-                    {/* Botones del formulario */}
+                    {/* FACTOR */}
+
+                    <div className={styles.campoFiltro}>
+
+                        <CampoFormulario
+                            id="factor"
+                            etiqueta="Factor"
+                            tipo="select"
+                            valor={factor}
+                            placeholder="Seleccione un factor"
+                            deshabilitado={buscando}
+                            opciones={factoresDisponibles.map(item => ({
+                                valor: item.nombre,
+                                etiqueta: item.nombre
+                            }))}
+                            onChange={evento => {
+
+                                setFactor(
+                                    evento.target.value
+                                );
+
+                                limpiarErrorCampo(
+                                    "factor"
+                                );
+
+                            }}
+                        />
+
+                    </div>
+
+                    {/* BOTONES DE BÚSQUEDA */}
 
                     <div className={styles.botonesBusqueda}>
 
                         <button
                             type="submit"
-                            disabled={buscando}
+                            disabled={buscando || eliminando}
                         >
 
-                            {buscando ? "Buscando..." : "Buscar"}
+                            {buscando
+                                ? "Buscando..."
+                                : "Buscar"}
 
                         </button>
 
                         <button
                             type="button"
-                            disabled={buscando}
+                            disabled={buscando || eliminando}
                             onClick={() => setMensaje(
                                 "CU021 pendiente de implementación."
                             )}
@@ -517,9 +608,58 @@ export default function GestionarPreguntas() {
 
                     </div>
 
+                    {/* ERROR GENERAL DEL FORMULARIO */}
+
+                    {errores.general && (
+
+                        <div
+                            className={styles.errorFormulario}
+                            role="alert"
+                        >
+
+                            <svg
+                                width="14"
+                                height="14"
+                                viewBox="0 0 20 20"
+                                aria-hidden="true"
+                            >
+
+                                <circle
+                                    cx="10"
+                                    cy="10"
+                                    r="9"
+                                    fill="currentColor"
+                                />
+
+                                <path
+                                    d="M10 5.5v5"
+                                    stroke="white"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                />
+
+                                <circle
+                                    cx="10"
+                                    cy="14"
+                                    r="1"
+                                    fill="white"
+                                />
+
+                            </svg>
+
+                            <span>
+
+                                {errores.general}
+
+                            </span>
+
+                        </div>
+
+                    )}
+
                 </form>
 
-                {/* Mensajes generales */}
+                {/* MENSAJES INFORMATIVOS */}
 
                 {mensaje && (
 
@@ -534,9 +674,10 @@ export default function GestionarPreguntas() {
 
                 )}
 
-                {/* Grilla de resultados */}
+                {/* GRILLA DE RESULTADOS */}
 
-                {busquedaRealizada && preguntas.length > 0 && (
+                {busquedaRealizada &&
+                    preguntas.length > 0 && (
 
                     <section className={styles.resultados}>
 
@@ -549,8 +690,11 @@ export default function GestionarPreguntas() {
                                 <tr>
 
                                     <th>Competencia</th>
+
                                     <th>Factor</th>
+
                                     <th>Pregunta</th>
+
                                     <th aria-label="Selección"></th>
 
                                 </tr>
@@ -571,15 +715,21 @@ export default function GestionarPreguntas() {
                                     >
 
                                         <td>
+
                                             {pregunta.competenciaNombre}
+
                                         </td>
 
                                         <td>
+
                                             {pregunta.factorNombre}
+
                                         </td>
 
                                         <td>
+
                                             {pregunta.nombre}
+
                                         </td>
 
                                         <td>
@@ -587,7 +737,9 @@ export default function GestionarPreguntas() {
                                             <input
                                                 type="radio"
                                                 name="preguntaSeleccionada"
-                                                aria-label={`Seleccionar ${pregunta.nombre}`}
+                                                aria-label={
+                                                    `Seleccionar ${pregunta.nombre}`
+                                                }
                                                 checked={
                                                     preguntaSeleccionada === pregunta.id
                                                 }
@@ -608,7 +760,7 @@ export default function GestionarPreguntas() {
 
                         </table>
 
-                        {/* Botones de gestión */}
+                        {/* BOTONES DE GESTIÓN */}
 
                         <div className={styles.botonesGestion}>
 
@@ -650,195 +802,57 @@ export default function GestionarPreguntas() {
 
             </main>
 
-            {/* =====================================
-                CU023 - Ventana de advertencia
-                ===================================== */}
+            {/* ==========================================
+                VENTANA DE ADVERTENCIA - CU023
+                ========================================== */}
 
-            <dialog
-                ref={dialogoConfirmacion}
-                className={`${styles.modal} ${styles.modalAdvertencia}`}
-                aria-labelledby="tituloConfirmacion"
-                aria-describedby="mensajeConfirmacion"
-                onCancel={evento => {
-
-                    evento.preventDefault();
-                    cancelarEliminacion();
-
-                }}
-            >
-
-                {preguntaAEliminar && (
-
-                    <>
-
-                        {/* Cabecera amarilla */}
-
-                        <div className={styles.cabeceraAdvertencia}>
-
-                            <span
-                                className={styles.decoracionVentana}
-                                aria-hidden="true"
-                            >
-                                ● ● ●
-                            </span>
-
-                            <h2 id="tituloConfirmacion">
-                                Advertencia
-                            </h2>
-
-                        </div>
-
-                        {/* Contenido de la advertencia */}
-
-                        <div className={styles.cuerpoModal}>
-
-                            <svg
-                                className={styles.iconoAdvertencia}
-                                width="40"
-                                height="40"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="1.8"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                aria-hidden="true"
-                            >
-
-                                <path d="M12 3 2 21h20L12 3Z" />
-                                <path d="M12 9v5" />
-                                <path d="M12 17h.01" />
-
-                            </svg>
-
-                            <p id="mensajeConfirmacion">
-
-                                {`Los datos de la pregunta "${preguntaAEliminar.nombre}" serán eliminados del sistema.`}
-
-                            </p>
-
-                            <div className={styles.botonesModal}>
-
-                                <button
-                                    type="button"
-                                    disabled={eliminando}
-                                    onClick={cancelarEliminacion}
-                                    autoFocus
-                                >
-
-                                    Cancelar
-
-                                </button>
-
-                                <button
-                                    type="button"
-                                    className={styles.botonEliminar}
-                                    disabled={eliminando}
-                                    onClick={confirmarEliminacion}
-                                >
-
-                                    {eliminando
-                                        ? "Eliminando..."
-                                        : "Eliminar"
-                                    }
-
-                                </button>
-
-                            </div>
-
-                        </div>
-
-                    </>
-
-                )}
-
-            </dialog>
-
-            {/* =====================================
-                CU023 - Ventana de operación exitosa
-                ===================================== */}
-
-            <dialog
-                ref={dialogoExito}
-                className={`${styles.modal} ${styles.modalExito}`}
-                aria-labelledby="tituloExito"
-                aria-describedby="mensajeExito"
-                tabIndex={-1}
-                onCancel={evento => {
-
-                    evento.preventDefault();
-
-                }}
-                onKeyDown={evento => {
-
-                    if (mensajeEliminacion && !evento.repeat) {
-
-                        evento.preventDefault();
-                        finalizarEliminacion();
-
+            <VentanaModal
+                abierta={preguntaAEliminar !== null}
+                tipo="advertencia"
+                mensaje={
+                    preguntaAEliminar
+                        ? `Los datos de la pregunta "${preguntaAEliminar.nombre}" serán eliminados del sistema.`
+                        : ""
+                }
+                bloqueada={eliminando}
+                onCerrar={cancelarEliminacion}
+                botones={[
+                    {
+                        texto: "Cancelar",
+                        onClick: cancelarEliminacion
+                    },
+                    {
+                        texto: eliminando
+                            ? "Eliminando..."
+                            : "Eliminar",
+                        onClick: confirmarEliminacion,
+                        principal: true
                     }
+                ]}
+            />
 
-                }}
-            >
+            {/* ==========================================
+                VENTANA DE OPERACIÓN EXITOSA - CU023
+                ========================================== */}
 
-                {/* Cabecera verde */}
+            <VentanaModal
+                abierta={mensajeEliminacion !== ""}
+                tipo="exito"
+                mensaje={mensajeEliminacion}
+                cerrarConCualquierTecla={true}
+                onCerrar={finalizarEliminacion}
+            />
 
-                <div className={styles.cabeceraExito}>
+            {/* ==========================================
+                VENTANA GENERAL DE ERRORES
+                ========================================== */}
 
-                    <span
-                        className={styles.decoracionVentana}
-                        aria-hidden="true"
-                    >
-                        ● ● ●
-                    </span>
-
-                    <h2 id="tituloExito">
-                        Operación Exitosa
-                    </h2>
-
-                </div>
-
-                {/* Contenido de la operación exitosa */}
-
-                <div className={styles.cuerpoModal}>
-
-                    <svg
-                        className={styles.iconoExito}
-                        width="40"
-                        height="40"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="1.8"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        aria-hidden="true"
-                    >
-
-                        <circle cx="12" cy="12" r="10" />
-                        <path d="m8 12 3 3 5-6" />
-
-                    </svg>
-
-                    <p id="mensajeExito">
-
-                        {mensajeEliminacion}
-
-                    </p>
-
-                    <button
-                        type="button"
-                        className={styles.indicacionModal}
-                        onClick={finalizarEliminacion}
-                    >
-
-                        Presione cualquier tecla para regresar.
-
-                    </button>
-
-                </div>
-
-            </dialog>
+            <VentanaModal
+                abierta={ventana !== null}
+                tipo={ventana?.tipo}
+                mensaje={ventana?.mensaje}
+                onCerrar={cerrarMensaje}
+            />
 
         </div>
 

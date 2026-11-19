@@ -5,8 +5,11 @@
 
 .pagina {
     min-height: 100vh;
+
     background-color: #ffffff;
     color: #222222;
+    color-scheme: light;
+
     font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -19,18 +22,22 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+
     padding: 25px 8%;
+
     border-bottom: 1px solid #eeeeee;
 }
 
 .logo {
     color: #174675;
+
     font-size: 25px;
     font-weight: bold;
 }
 
 .logo span {
     display: block;
+
     font-size: 12px;
     font-weight: normal;
 }
@@ -38,11 +45,13 @@
 .navegacion {
     display: flex;
     align-items: center;
+
     gap: 20px;
 }
 
 .navegacion a {
     color: #222222;
+
     text-decoration: none;
 }
 
@@ -53,7 +62,9 @@
 .consultor {
     background-color: #44444e;
     color: #ffffff;
+
     padding: 6px 15px;
+
     border-radius: 2px;
 }
 
@@ -65,12 +76,14 @@
 .contenido {
     width: 85%;
     max-width: 1200px;
+
     margin: 40px auto;
 }
 
 .contenido h1 {
     font-size: 30px;
     font-weight: normal;
+
     margin-bottom: 30px;
 }
 
@@ -81,47 +94,52 @@
 
 .formulario {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    align-items: start;
+
     column-gap: 70px;
     row-gap: 25px;
 }
 
-.campo {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-}
-
-.campo label {
-    font-size: 16px;
-}
-
-.campo input,
-.campo select {
+.campoFiltro {
     width: 100%;
     max-width: 320px;
-    height: 35px;
-    padding: 5px 10px;
 
-    background-color: #ffffff;
-    color: #222222;
-
-    border: 1px solid #aaaaaa;
-    border-radius: 3px;
-
-    font-size: 14px;
-}
-
-.campo input:focus,
-.campo select:focus {
-    outline: 1px solid #174675;
-    border-color: #174675;
+    min-width: 0;
 }
 
 .botonesBusqueda {
     display: flex;
-    align-items: flex-end;
+    align-items: center;
+
     gap: 30px;
+
+    margin-top: 22px;
+}
+
+
+/* ==========================================
+   VALIDACIÓN GENERAL DEL FORMULARIO
+   ========================================== */
+
+.errorFormulario {
+    grid-column: 1 / -1;
+
+    display: flex;
+    align-items: center;
+
+    gap: 7px;
+    margin-top: -8px;
+
+    color: #e52222;
+
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+.errorFormulario svg {
+    flex-shrink: 0;
 }
 
 
@@ -129,8 +147,10 @@
    BOTONES GENERALES
    ========================================== */
 
-.pagina button {
+.contenido button {
     min-width: 130px;
+    min-height: 36px;
+
     padding: 7px 20px;
 
     background-color: #e5e5e5;
@@ -140,27 +160,30 @@
     border-radius: 3px;
 
     font-size: 16px;
+    font-family: inherit;
+
     cursor: pointer;
 }
 
-.pagina button:hover:not(:disabled) {
+.contenido button:hover:not(:disabled) {
     background-color: #d0d0d0;
 }
 
-.pagina button:disabled {
+.contenido button:disabled {
     background-color: #eeeeee;
     color: #aaaaaa;
+
     cursor: not-allowed;
 }
 
-.pagina button:focus-visible {
+.contenido button:focus-visible {
     outline: 2px solid #174675;
     outline-offset: 3px;
 }
 
 
 /* ==========================================
-   MENSAJES GENERALES
+   MENSAJES INFORMATIVOS
    ========================================== */
 
 .mensaje {
@@ -172,6 +195,8 @@
 
     border: 1px solid #cccccc;
     border-radius: 3px;
+
+    font-size: 14px;
 }
 
 
@@ -181,40 +206,51 @@
 
 .resultados {
     margin-top: 45px;
+
     overflow-x: auto;
 }
 
 .resultados h2 {
     font-size: 22px;
     font-weight: normal;
+
     margin-bottom: 15px;
 }
 
 .tabla {
     width: 100%;
+
     border-collapse: collapse;
+
     font-size: 15px;
 }
 
 .tabla th,
 .tabla td {
     border: 1px solid #bbbbbb;
+
     padding: 14px;
+
     text-align: left;
+
+    overflow-wrap: anywhere;
 }
 
 .tabla th {
     background-color: #e5e5e5;
+
     font-weight: normal;
 }
 
 .tabla td:last-child {
     width: 60px;
+
     text-align: center;
 }
 
 .tabla input[type="radio"] {
     accent-color: #174675;
+
     cursor: pointer;
 }
 
@@ -222,197 +258,17 @@
     background-color: #e1eaf5;
 }
 
+
+/* ==========================================
+   BOTONES DE GESTIÓN
+   ========================================== */
+
 .botonesGestion {
     display: flex;
     justify-content: center;
+
     gap: 40px;
     margin-top: 25px;
-}
-
-
-/* ==========================================
-   CU023 - VENTANAS MODALES
-   ========================================== */
-
-.modal {
-    position: fixed;
-    inset: 0;
-
-    margin: auto;
-    padding: 0;
-
-    width: 90%;
-    max-width: 460px;
-    max-height: 90vh;
-
-    overflow-y: auto;
-    box-sizing: border-box;
-
-    background-color: #ffffff;
-    color: #222222;
-
-    border: 1px solid #777777;
-    border-radius: 2px;
-
-    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15);
-
-    text-align: center;
-}
-
-.modal::backdrop {
-    background-color: rgba(255, 255, 255, 0.60);
-}
-
-
-/* ==========================================
-   CU023 - VENTANA DE ADVERTENCIA
-   ========================================== */
-
-.modalAdvertencia {
-    border-color: #777777;
-}
-
-.cabeceraAdvertencia {
-    position: relative;
-    padding: 6px 45px;
-
-    background-color: #ffca40;
-
-    border-bottom: 1px solid #777777;
-}
-
-.iconoAdvertencia {
-    color: #eea500;
-    flex-shrink: 0;
-}
-
-
-/* ==========================================
-   CU023 - VENTANA DE OPERACIÓN EXITOSA
-   ========================================== */
-
-.modalExito {
-    border-color: #777777;
-}
-
-.cabeceraExito {
-    position: relative;
-    padding: 6px 45px;
-
-    background-color: #97d56b;
-
-    border-bottom: 1px solid #777777;
-}
-
-.iconoExito {
-    color: #79c64b;
-    flex-shrink: 0;
-}
-
-
-/* ==========================================
-   TÍTULOS Y DECORACIÓN DE VENTANAS
-   ========================================== */
-
-.modal h2 {
-    margin: 0;
-    font-size: 14px;
-    font-weight: normal;
-    color: #222222;
-}
-
-.decoracionVentana {
-    position: absolute;
-    left: 8px;
-    top: 50%;
-
-    transform: translateY(-50%);
-
-    font-size: 9px;
-    color: #555555;
-}
-
-
-/* ==========================================
-   CONTENIDO DE LAS VENTANAS
-   ========================================== */
-
-.cuerpoModal {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    padding: 15px 30px 30px;
-    min-height: 210px;
-
-    box-sizing: border-box;
-}
-
-.modal p {
-    font-size: 15px;
-    line-height: 1.5;
-    margin: 15px 0;
-}
-
-
-/* ==========================================
-   BOTONES DE LAS VENTANAS
-   ========================================== */
-
-.botonesModal {
-    display: flex;
-    justify-content: center;
-    gap: 35px;
-
-    margin-top: auto;
-    padding-top: 20px;
-
-    flex-wrap: wrap;
-}
-
-.modal .botonesModal button {
-    min-width: 125px;
-    padding: 6px 20px;
-
-    font-size: 14px;
-    border-radius: 2px;
-}
-
-.modal button.botonEliminar:not(:disabled) {
-    background-color: #999999;
-    color: #222222;
-}
-
-.modal button.botonEliminar:hover:not(:disabled) {
-    background-color: #858585;
-}
-
-
-/* ==========================================
-   INDICACIÓN DE REGRESO AL CU020
-   ========================================== */
-
-.modal button.indicacionModal {
-    min-width: 0;
-    padding: 0;
-    margin: 15px 0;
-
-    border: none;
-    border-radius: 0;
-
-    background-color: transparent;
-    color: #222222;
-
-    font-size: 14px;
-    font-weight: normal;
-    line-height: 1.5;
-
-    cursor: pointer;
-}
-
-.modal button.indicacionModal:hover:not(:disabled) {
-    background-color: transparent;
-    text-decoration: underline;
 }
 
 
@@ -428,25 +284,27 @@
 
     .encabezado {
         flex-wrap: wrap;
+
         gap: 20px;
     }
 
     .botonesBusqueda,
     .botonesGestion {
         flex-wrap: wrap;
+
+        gap: 15px;
     }
 
-    .campo input,
-    .campo select {
+    .botonesBusqueda {
+        margin-top: 0;
+    }
+
+    .campoFiltro {
         max-width: 100%;
     }
 
-    .cuerpoModal {
-        padding: 15px 20px 25px;
-    }
-
-    .botonesModal {
-        gap: 15px;
+    .errorFormulario {
+        margin-top: 0;
     }
 
 }
