@@ -1,0 +1,310 @@
+
+/* ==========================================
+   ESTILOS GENERALES
+   ========================================== */
+
+.pagina {
+    min-height: 100vh;
+
+    background-color: #ffffff;
+    color: #222222;
+    color-scheme: light;
+
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+
+/* ==========================================
+   ENCABEZADO
+   ========================================== */
+
+.encabezado {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 25px 8%;
+
+    border-bottom: 1px solid #eeeeee;
+}
+
+.logo {
+    color: #174675;
+
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.logo span {
+    display: block;
+
+    font-size: 12px;
+    font-weight: normal;
+}
+
+.navegacion {
+    display: flex;
+    align-items: center;
+
+    gap: 20px;
+}
+
+.navegacion a {
+    color: #222222;
+
+    text-decoration: none;
+}
+
+.navegacion a:hover {
+    text-decoration: underline;
+}
+
+.consultor {
+    background-color: #44444e;
+    color: #ffffff;
+
+    padding: 6px 15px;
+
+    border-radius: 2px;
+}
+
+
+/* ==========================================
+   CONTENIDO PRINCIPAL
+   ========================================== */
+
+.contenido {
+    width: 85%;
+    max-width: 1200px;
+
+    margin: 40px auto;
+}
+
+.contenido h1 {
+    font-size: 30px;
+    font-weight: normal;
+
+    margin-bottom: 30px;
+}
+
+
+/* ==========================================
+   CU020 - FORMULARIO DE BÚSQUEDA
+   ========================================== */
+
+.formulario {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    align-items: start;
+
+    column-gap: 70px;
+    row-gap: 25px;
+}
+
+.campoFiltro {
+    width: 100%;
+    max-width: 320px;
+
+    min-width: 0;
+}
+
+.botonesBusqueda {
+    display: flex;
+    align-items: center;
+
+    gap: 30px;
+
+    margin-top: 22px;
+}
+
+
+/* ==========================================
+   VALIDACIÓN GENERAL DEL FORMULARIO
+   ========================================== */
+
+.errorFormulario {
+    grid-column: 1 / -1;
+
+    display: flex;
+    align-items: center;
+
+    gap: 7px;
+    margin-top: -8px;
+
+    color: #e52222;
+
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+.errorFormulario svg {
+    flex-shrink: 0;
+}
+
+
+/* ==========================================
+   BOTONES GENERALES
+   ========================================== */
+
+.contenido button {
+    min-width: 130px;
+    min-height: 36px;
+
+    padding: 7px 20px;
+
+    background-color: #e5e5e5;
+    color: #222222;
+
+    border: 1px solid #aaaaaa;
+    border-radius: 3px;
+
+    font-size: 16px;
+    font-family: inherit;
+
+    cursor: pointer;
+}
+
+.contenido button:hover:not(:disabled) {
+    background-color: #d0d0d0;
+}
+
+.contenido button:disabled {
+    background-color: #eeeeee;
+    color: #aaaaaa;
+
+    cursor: not-allowed;
+}
+
+.contenido button:focus-visible {
+    outline: 2px solid #174675;
+    outline-offset: 3px;
+}
+
+
+/* ==========================================
+   MENSAJES INFORMATIVOS
+   ========================================== */
+
+.mensaje {
+    margin-top: 20px;
+    padding: 10px;
+
+    color: #333333;
+    background-color: #f5f5f5;
+
+    border: 1px solid #cccccc;
+    border-radius: 3px;
+
+    font-size: 14px;
+}
+
+
+/* ==========================================
+   CU020 - GRILLA DE RESULTADOS
+   ========================================== */
+
+.resultados {
+    margin-top: 45px;
+
+    overflow-x: auto;
+}
+
+.resultados h2 {
+    font-size: 22px;
+    font-weight: normal;
+
+    margin-bottom: 15px;
+}
+
+.tabla {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    font-size: 15px;
+}
+
+.tabla th,
+.tabla td {
+    border: 1px solid #bbbbbb;
+
+    padding: 14px;
+
+    text-align: left;
+
+    overflow-wrap: anywhere;
+}
+
+.tabla th {
+    background-color: #e5e5e5;
+
+    font-weight: normal;
+}
+
+.tabla td:last-child {
+    width: 60px;
+
+    text-align: center;
+}
+
+.tabla input[type="radio"] {
+    accent-color: #174675;
+
+    cursor: pointer;
+}
+
+.filaSeleccionada {
+    background-color: #e1eaf5;
+}
+
+
+/* ==========================================
+   BOTONES DE GESTIÓN
+   ========================================== */
+
+.botonesGestion {
+    display: flex;
+    justify-content: center;
+
+    gap: 40px;
+    margin-top: 25px;
+}
+
+
+/* ==========================================
+   DISEÑO RESPONSIVO
+   ========================================== */
+
+@media (max-width: 700px) {
+
+    .formulario {
+        grid-template-columns: 1fr;
+    }
+
+    .encabezado {
+        flex-wrap: wrap;
+
+        gap: 20px;
+    }
+
+    .botonesBusqueda,
+    .botonesGestion {
+        flex-wrap: wrap;
+
+        gap: 15px;
+    }
+
+    .botonesBusqueda {
+        margin-top: 0;
+    }
+
+    .campoFiltro {
+        max-width: 100%;
+    }
+
+    .errorFormulario {
+        margin-top: 0;
+    }
+
+}

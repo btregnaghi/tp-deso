@@ -1,0 +1,158 @@
+
+/* ==========================================
+   CONTENEDOR DEL CAMPO
+   ========================================== */
+
+.campo {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    width: 100%;
+    min-width: 0;
+
+    font-family: Arial, Helvetica, sans-serif;
+    color: #222222;
+
+    box-sizing: border-box;
+}
+
+
+/* ==========================================
+   ETIQUETA
+   ========================================== */
+
+.etiqueta {
+    font-size: 14px;
+    font-weight: normal;
+}
+
+
+/* ==========================================
+   CONTENEDOR DEL CONTROL
+   ========================================== */
+
+.contenedorControl {
+    position: relative;
+    width: 100%;
+}
+
+
+/* ==========================================
+   CONTROLES GENERALES
+   ========================================== */
+
+.control {
+    display: block;
+
+    width: 100%;
+    height: 36px;
+    padding: 7px 10px;
+
+    box-sizing: border-box;
+
+    background-color: #ffffff;
+    color: #222222;
+    color-scheme: light;
+
+    border: 1px solid #aaaaaa;
+    border-radius: 3px;
+
+    font-family: inherit;
+    font-size: 14px;
+}
+
+.control::placeholder {
+    color: #aaaaaa;
+    opacity: 1;
+}
+
+.control:focus {
+    outline: 1px solid #174675;
+    border-color: #174675;
+}
+
+.control:disabled {
+    background-color: #eeeeee;
+    color: #999999;
+
+    cursor: not-allowed;
+}
+
+
+/* ==========================================
+   ÁREAS DE TEXTO
+   ========================================== */
+
+textarea.control {
+    height: auto;
+    min-height: 80px;
+
+    resize: vertical;
+}
+
+
+/* ==========================================
+   ESTADO DE ERROR
+   ========================================== */
+
+.controlError {
+    border-color: #e52222;
+    padding-right: 32px;
+}
+
+.controlError:focus {
+    border-color: #e52222;
+    outline: 1px solid #e52222;
+}
+
+select.controlError {
+    padding-right: 45px;
+}
+
+input[type="number"].controlError {
+    padding-right: 45px;
+}
+
+
+/* ==========================================
+   ICONO DE ERROR
+   ========================================== */
+
+.iconoError {
+    position: absolute;
+    top: 11px;
+    right: 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #e52222;
+
+    pointer-events: none;
+}
+
+.iconoSelect,
+.iconoNumero {
+    right: 24px;
+}
+
+
+/* ==========================================
+   MENSAJE DE VALIDACIÓN
+   ========================================== */
+
+.mensajeError {
+    display: block;
+
+    padding-left: 5px;
+
+    color: #e52222;
+
+    font-size: 11px;
+    font-weight: normal;
+    line-height: 1.3;
+
+    overflow-wrap: anywhere;
+}

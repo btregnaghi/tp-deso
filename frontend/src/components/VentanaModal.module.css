@@ -1,0 +1,261 @@
+
+/* ==========================================
+   VENTANA MODAL GENERAL
+   ========================================== */
+
+.modal {
+    position: fixed;
+    inset: 0;
+
+    margin: auto;
+    padding: 0;
+
+    width: 90%;
+    max-width: 460px;
+    max-height: 90vh;
+
+    overflow-y: auto;
+    box-sizing: border-box;
+
+    background-color: #ffffff;
+    color: #222222;
+    color-scheme: light;
+
+    font-family: Arial, Helvetica, sans-serif;
+
+    border: 1px solid #777777;
+    border-radius: 2px;
+
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15);
+
+    text-align: center;
+}
+
+.modal::backdrop {
+    background-color: rgba(255, 255, 255, 0.60);
+}
+
+
+/* ==========================================
+   CABECERAS
+   ========================================== */
+
+.cabeceraError,
+.cabeceraAdvertencia,
+.cabeceraExito {
+    position: relative;
+    padding: 6px 45px;
+
+    border-bottom: 1px solid #777777;
+}
+
+
+/* ==========================================
+   VENTANA DE ERROR
+   ========================================== */
+
+.cabeceraError {
+    background-color: #ed2015;
+}
+
+.iconoError {
+    color: #ed2015;
+    flex-shrink: 0;
+}
+
+
+/* ==========================================
+   VENTANA DE ADVERTENCIA
+   ========================================== */
+
+.cabeceraAdvertencia {
+    background-color: #ffca40;
+}
+
+.iconoAdvertencia {
+    color: #eea500;
+    flex-shrink: 0;
+}
+
+
+/* ==========================================
+   VENTANA DE OPERACIÓN EXITOSA
+   ========================================== */
+
+.cabeceraExito {
+    background-color: #97d56b;
+}
+
+.iconoExito {
+    color: #79c64b;
+    flex-shrink: 0;
+}
+
+
+/* ==========================================
+   TÍTULOS Y DECORACIÓN
+   ========================================== */
+
+.modal h2 {
+    margin: 0;
+
+    font-size: 14px;
+    font-weight: normal;
+
+    color: #222222;
+}
+
+.decoracionVentana {
+    position: absolute;
+    left: 8px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    font-size: 9px;
+    color: #555555;
+}
+
+
+/* ==========================================
+   CONTENIDO DE LAS VENTANAS
+   ========================================== */
+
+.cuerpoModal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding: 15px 30px 30px;
+    min-height: 210px;
+
+    box-sizing: border-box;
+}
+
+.modal p {
+    font-size: 15px;
+    line-height: 1.5;
+
+    margin: 15px 0;
+
+    white-space: pre-line;
+    overflow-wrap: anywhere;
+}
+
+
+/* ==========================================
+   BOTONES
+   ========================================== */
+
+.botonesModal {
+    display: flex;
+    justify-content: center;
+    gap: 35px;
+
+    margin-top: auto;
+    padding-top: 20px;
+
+    flex-wrap: wrap;
+}
+
+.modal .botonesModal button {
+    min-width: 125px;
+    min-height: 0;
+
+    padding: 6px 20px;
+
+    background-color: #e5e5e5;
+    color: #222222;
+
+    border: 1px solid #aaaaaa;
+    border-radius: 2px;
+
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: normal;
+
+    cursor: pointer;
+}
+
+.modal .botonesModal button:hover:not(:disabled) {
+    background-color: #d0d0d0;
+}
+
+.modal .botonesModal button:disabled {
+    background-color: #eeeeee;
+    color: #aaaaaa;
+
+    cursor: not-allowed;
+}
+
+.modal button:focus-visible {
+    outline: 2px solid #174675;
+    outline-offset: 3px;
+}
+
+
+/* ==========================================
+   BOTÓN PRINCIPAL DE CONFIRMACIÓN
+   ========================================== */
+
+.modal .botonesModal button.botonPrincipal:not(:disabled) {
+    background-color: #999999;
+    color: #222222;
+}
+
+.modal .botonesModal button.botonPrincipal:hover:not(:disabled) {
+    background-color: #858585;
+}
+
+
+/* ==========================================
+   INDICACIÓN DE REGRESO
+   ========================================== */
+
+.modal button.indicacionModal {
+    min-width: 0;
+    min-height: 0;
+
+    padding: 0;
+    margin: 15px 0;
+
+    border: none;
+    border-radius: 0;
+
+    background-color: transparent;
+    color: #222222;
+
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 1.5;
+
+    cursor: pointer;
+}
+
+.modal button.indicacionModal:hover:not(:disabled) {
+    background-color: transparent;
+    text-decoration: underline;
+}
+
+.modal button.indicacionModal:disabled {
+    color: #aaaaaa;
+    cursor: not-allowed;
+}
+
+
+/* ==========================================
+   DISEÑO RESPONSIVO
+   ========================================== */
+
+@media (max-width: 700px) {
+
+    .cuerpoModal {
+        padding: 15px 20px 25px;
+    }
+
+    .botonesModal {
+        gap: 15px;
+    }
+
+}
