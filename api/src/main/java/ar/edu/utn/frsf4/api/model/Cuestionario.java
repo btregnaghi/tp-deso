@@ -20,51 +20,45 @@ public class Cuestionario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
+    private String claveIngreso;
+
+    // null hasta que el candidato ingresa por primera vez
+    private LocalDateTime fechaHoraInicio;
+
+    // null hasta que el cuestionario se completa o se cierra
+    private LocalDateTime fechaHoraFin;
+
+    private LocalDateTime ultimoIngreso;
+
+    @Column(nullable = false)
+    private Integer cantidadAccesos;
+
+    // null hasta que el cuestionario se completa
+    private Double puntajeTotal;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private EstadoCuestionario estado;
 
-    @Column(nullable = false)
-    private LocalDateTime fechaCreacion;
-
-    private LocalDateTime fechaInicio;
-
-    private LocalDateTime horaFinBloqueoActivo;
-
-    @Column(nullable = false)
-    private Integer tiempoMaximo;
-
-    @Column(nullable = false)
-    private Integer cantPreguntasPorFactor;
-
-    @Column(nullable = false)
-    private Integer cantPreguntasPorBloque;
-
-    private Double puntajeFinal;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "evaluacion_id", nullable = false)
+    private Evaluacion evaluacion;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "candidato_id", nullable = false)
     private Candidato candidato;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "puesto_id", nullable = false)
-    private Puesto puesto;
-
+    // La evaluacion se asigna con Evaluacion.agregarCuestionario(...)
     public Cuestionario(
             Candidato candidato,
-            Puesto puesto,
-            Integer tiempoMaximo,
-            Integer cantPreguntasPorFactor,
-            Integer cantPreguntasPorBloque) {
+            String claveIngreso,
+            EstadoCuestionario estado) {
 
         this.candidato = candidato;
-        this.puesto = puesto;
-        this.tiempoMaximo = tiempoMaximo;
-        this.cantPreguntasPorFactor = cantPreguntasPorFactor;
-        this.cantPreguntasPorBloque = cantPreguntasPorBloque;
-
-        this.estado = EstadoCuestionario.ACTIVO;
-        this.fechaCreacion = LocalDateTime.now();
+        this.claveIngreso = claveIngreso;
+        this.estado = estado;
+        this.cantidadAccesos = 0;
 
     }
 
