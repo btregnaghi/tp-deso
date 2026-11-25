@@ -11,6 +11,8 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class PuestoDTO {
 
+    private Long id;
+
     private String codigo;
 
     private String nombre;

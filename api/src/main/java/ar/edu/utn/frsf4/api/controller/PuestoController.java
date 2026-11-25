@@ -43,13 +43,33 @@ public class PuestoController {
     // OBTENER EL DETALLE DE UN PUESTO
     // ==========================================
 
-    @GetMapping("/{codigo}")
+    // El codigo tiene que tener al menos un caracter que no sea digito;
+    // los valores solo numericos van a /{id} (ver buscarPuesto)
+    @GetMapping("/{codigo:.*\\D.*}")
     public ResponseEntity<DetallePuestoDTO>
             obtenerDetallePuesto(
                     @PathVariable("codigo") String codigo) {
 
         DetallePuestoDTO puesto =
                 puestoService.obtenerDetallePuesto(codigo);
+
+        return ResponseEntity.ok(puesto);
+
+    }
+
+
+    // ==========================================
+    // BUSCAR UN PUESTO POR SU ID
+    // ==========================================
+
+    // El {id:\d+} solo acepta numeros, asi no choca con /{codigo}
+    @GetMapping("/{id:\\d+}")
+    public ResponseEntity<DetallePuestoDTO>
+            buscarPuesto(
+                    @PathVariable("id") Long id) {
+
+        DetallePuestoDTO puesto =
+                puestoService.buscarPuesto(id);
 
         return ResponseEntity.ok(puesto);
 

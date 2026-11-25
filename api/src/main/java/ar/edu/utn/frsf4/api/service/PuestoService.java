@@ -79,6 +79,38 @@ public class PuestoService {
 
 
     // ==========================================
+    // BUSCAR UN PUESTO POR SU ID
+    // ==========================================
+
+    @Transactional(readOnly = true)
+    public DetallePuestoDTO buscarPuesto(Long id) {
+
+        // Validar el id recibido.
+
+        if (id == null || id <= 0) {
+
+            throw new IllegalArgumentException(
+                    "Debe seleccionar una función laboral."
+            );
+
+        }
+
+        // Recuperar el puesto y sus competencias.
+
+        Puesto puesto = puestoRepository
+                .buscarPorIdConCompetencias(id)
+                .orElseThrow(() -> new NoSuchElementException(
+                        "No existe un puesto con el id indicado."
+                ));
+
+        // Convertir el puesto al DTO correspondiente.
+
+        return convertirADetallePuestoDTO(puesto);
+
+    }
+
+
+    // ==========================================
     // CONVERSIÓN A PUESTODTO
     // ==========================================
 
@@ -86,6 +118,7 @@ public class PuestoService {
 
         return new PuestoDTO(
 
+                puesto.getId(),
                 puesto.getCodigo(),
                 puesto.getNombre(),
                 puesto.getEmpresa().getNombre()

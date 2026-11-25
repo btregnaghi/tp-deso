@@ -41,4 +41,19 @@ public interface PuestoRepository
             @Param("codigo") String codigo
     );
 
+
+    // Igual que la anterior, pero buscando por id.
+
+    @Query("""
+            SELECT DISTINCT p
+            FROM Puesto p
+            JOIN FETCH p.empresa
+            LEFT JOIN FETCH p.caracteristicas cp
+            LEFT JOIN FETCH cp.competencia
+            WHERE p.id = :id
+            """)
+    Optional<Puesto> buscarPorIdConCompetencias(
+            @Param("id") Long id
+    );
+
 }
