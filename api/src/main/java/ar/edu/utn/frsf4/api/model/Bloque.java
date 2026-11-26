@@ -49,4 +49,10 @@ public class Bloque {
         this.itemsPregunta.add(item);
     }
 
+    // Un bloque esta respondido cuando todas sus preguntas lo estan
+    public boolean estaRespondido() {
+        return this.itemsPregunta.stream()
+                .allMatch(ItemPregunta::estaRespondida);
+    }
+
 }
