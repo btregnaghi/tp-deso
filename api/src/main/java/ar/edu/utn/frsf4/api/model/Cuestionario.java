@@ -7,6 +7,8 @@ import lombok.Setter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import ar.edu.utn.frsf4.api.model.enums.EstadoCuestionario;
 
@@ -49,6 +51,10 @@ public class Cuestionario {
     @JoinColumn(name = "candidato_id", nullable = false)
     private Candidato candidato;
 
+    @OneToMany(mappedBy = "cuestionario", cascade= CascadeType.ALL, orphanRemoval= true)
+    @OrderBy("nroBloque")
+    private List<Bloque> bloques = new ArrayList<>();
+
     // La evaluacion se asigna con Evaluacion.agregarCuestionario(...)
     public Cuestionario(
             Candidato candidato,
@@ -67,6 +73,12 @@ public class Cuestionario {
         return this.estado == EstadoCuestionario.ACTIVO
                 || this.estado == EstadoCuestionario.EN_PROCESO;
 
+    }
+
+    // relación bidireccional: hay que cargar los dos lados, si no bloque.cuestionario_id queda null
+    public void agregarBloque(Bloque bloque){
+        this.bloques.add(bloque);
+        bloque.setCuestionario(this);
     }
 
 }
