@@ -5,12 +5,29 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface PreguntaRepository
         extends JpaRepository<Pregunta, Long> {
 
     List<Pregunta> findByFechaBajaIsNull();
+
+    // CU026, paso 3: preguntas del factor tal como estaban al crear la evaluacion
+    // (fechaReferencia = evaluacion.fechaCreacion). Asi todos los cuestionarios de una
+    // evaluacion sortean del mismo banco aunque los candidatos ingresen en dias distintos.
+    // Trae las opciones en la misma consulta porque el paso 3 las usa para armar los ItemOpcion.
+    @Query("""
+        SELECT DISTINCT p FROM Pregunta p
+        LEFT JOIN FETCH p.opciones
+        WHERE p.factor.id = :idFactor
+        AND (p.fechaModificacion IS NULL OR p.fechaModificacion <= :fechaReferencia)
+        AND (p.fechaBaja IS NULL OR p.fechaBaja > :fechaReferencia)
+        """)
+    List<Pregunta> buscarActivasPorFactor(
+        @Param("idFactor") Long idFactor,
+        @Param("fechaReferencia") LocalDateTime fechaReferencia
+    );
 
     @Query("""
         SELECT p FROM Pregunta p
