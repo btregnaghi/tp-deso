@@ -20,6 +20,8 @@
 
 BEGIN;
 
+SET TIME ZONE 'America/Argentina/Buenos_Aires';
+
 TRUNCATE registro_auditoria, cuestionario, evaluacion, candidato, caracteristica_puesto,
          puesto, opcion, pregunta, factor, competencia, empresa
 RESTART IDENTITY CASCADE;
