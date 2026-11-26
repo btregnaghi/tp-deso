@@ -55,6 +55,9 @@ public class Cuestionario {
     @OrderBy("nroBloque")
     private List<Bloque> bloques = new ArrayList<>();
 
+    @OneToMany(mappedBy = "cuestionario", cascade= CascadeType.ALL, orphanRemoval= true)
+    private List<PuntajeCompetencia> puntajesCompetencia = new ArrayList<>();
+
     // La evaluacion se asigna con Evaluacion.agregarCuestionario(...)
     public Cuestionario(
             Candidato candidato,
@@ -76,9 +79,13 @@ public class Cuestionario {
     }
 
     // relación bidireccional: hay que cargar los dos lados, si no bloque.cuestionario_id queda null
-    public void agregarBloque(Bloque bloque){
+    public void agregarBloque(Bloque bloque){ 
         this.bloques.add(bloque);
         bloque.setCuestionario(this);
     }
 
+    public void agregarPuntajeCompetencia(PuntajeCompetencia puntajeCompetencia){
+        this.puntajesCompetencia.add(puntajeCompetencia);
+        puntajeCompetencia.setCuestionario(this);
+    }
 }
