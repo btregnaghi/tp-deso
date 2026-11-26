@@ -122,7 +122,7 @@ public void darDeBajaPregunta(
 
     LocalDateTime fechaHora = LocalDateTime.now();
 
-    pregunta.darDeBaja(fechaHora.toLocalDate());
+    pregunta.darDeBaja(fechaHora);
 
     preguntaRepository.save(pregunta);
 

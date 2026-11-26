@@ -1,6 +1,7 @@
 package ar.edu.utn.frsf4.api.model;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class Evaluacion {
     private String codigo;
 
     @Column(nullable = false)
-    private LocalDate fechaCreacion;
+    private LocalDateTime fechaCreacion;
 
     @Column(nullable = true)
     private LocalDate fechaCierre;
@@ -62,6 +63,6 @@ public class Evaluacion {
         this.puesto = puesto;
         this.duracionEnMinutos = duracionEnMinutos;
         this.cantPreguntasPorBloque = cantPreguntasPorBloque;
-        this.fechaCreacion = LocalDate.now();
+        this.fechaCreacion = LocalDateTime.now();
     }
 }
