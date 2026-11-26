@@ -75,7 +75,7 @@ INSERT INTO pregunta (id, version, nombre, texto, descripcion, tipo, fecha_modif
     (4,  1, 'Polimorfismo', '¿Qué permite el polimorfismo?', NULL, 'OPCION_SIMPLE', '2026-10-01 09:15', NULL, 1),
     (5,  1, 'Sobrecarga de métodos', '¿Qué distingue a dos métodos sobrecargados de una misma clase?', NULL, 'OPCION_SIMPLE', '2026-10-01 09:20', NULL, 1),
     (6,  1, 'Clases abstractas', 'Una clase abstracta se puede instanciar con new.', 'Verdadero o falso', 'OPCION_SIMPLE', '2026-10-01 09:25', NULL, 1),
-    (33, 1, 'Punteros en Java', 'Java permite hacer aritmética de punteros.', 'Verdadero o falso', 'OPCION_SIMPLE', '2026-10-01 09:30', '2026-10-20', 1),
+    (33, 1, 'Punteros en Java', 'Java permite hacer aritmética de punteros.', 'Verdadero o falso', 'OPCION_SIMPLE', '2026-10-01 09:30', '2026-10-20 18:00', 1),
     -- Factor 2: Manejo de excepciones
     (7,  1, 'Checked exceptions', '¿Cuál de estas excepciones es checked?', NULL, 'OPCION_SIMPLE', '2026-10-02 10:00', NULL, 2),
     (8,  1, 'Bloque finally', 'El bloque finally se ejecuta aunque el try termine con un return.', 'Verdadero o falso', 'OPCION_SIMPLE', '2026-10-02 10:05', NULL, 2),
@@ -104,7 +104,7 @@ INSERT INTO pregunta (id, version, nombre, texto, descripcion, tipo, fecha_modif
     (25, 1, 'Revisión de ortografía', '¿Con qué frecuencia revisás la ortografía antes de enviar un texto?', 'Escala de frecuencia', 'OPCION_SIMPLE', '2026-10-05 08:50', NULL, 8),
     -- Factor 9: Toma de decisiones (1 activa + 1 dada de baja -> no alcanza)
     (26, 1, 'Decisiones bajo presión', 'Tenés que tomar una decisión urgente sin contar con toda la información. ¿Qué hacés?', NULL, 'OPCION_SIMPLE', '2026-10-06 14:00', NULL, 9),
-    (27, 1, 'Buscar consenso', '¿Con qué frecuencia buscás el consenso del equipo antes de decidir?', 'Escala de frecuencia', 'OPCION_SIMPLE', '2026-10-06 14:05', '2026-11-05', 9),
+    (27, 1, 'Buscar consenso', '¿Con qué frecuencia buscás el consenso del equipo antes de decidir?', 'Escala de frecuencia', 'OPCION_SIMPLE', '2026-10-06 14:05', '2026-11-05 12:00', 9),
     -- Factor 10: Motivación del equipo (1 sola pregunta -> no alcanza)
     (28, 1, 'Reconocer el trabajo', '¿Con qué frecuencia reconocés públicamente el trabajo de tu equipo?', 'Escala de frecuencia', 'OPCION_SIMPLE', '2026-10-06 14:10', NULL, 10),
     -- Factor 12: Pruebas unitarias (el factor esta dado de baja)

@@ -17,7 +17,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,8 +50,9 @@ public class Pregunta {
 
     private LocalDateTime fechaModificacion;
 
-    // null mientras la pregunta está activa (baja lógica)
-    private LocalDate fechaBaja;
+    // null mientras la pregunta está activa (baja lógica). Guarda la hora para que CU026
+    // sepa si la pregunta seguía vigente al momento de crear una evaluación.
+    private LocalDateTime fechaBaja;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "factor_id", nullable = false)
@@ -81,7 +81,7 @@ public class Pregunta {
     return this.fechaBaja == null;
 }
 
-public void darDeBaja(LocalDate fechaBaja) {
+public void darDeBaja(LocalDateTime fechaBaja) {
 
     if (!estaActiva()) {
         throw new IllegalStateException(

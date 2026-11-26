@@ -61,8 +61,8 @@ CREATE TABLE pregunta (
     tipo               VARCHAR(255)  NOT NULL
                        CHECK (tipo IN ('OPCION_SIMPLE', 'OPCION_MULTIPLE')),
     fecha_modificacion TIMESTAMP(6),
-    fecha_baja         DATE,
-    factor_id          BIGINT        NOT NULL REFERENCES factor (id)
+    fecha_baja         TIMESTAMP(6),
+    factor_id         BIGINT        NOT NULL REFERENCES factor (id)
 );
 
 -- Opcion (entidad Opcion). La FK sale del @JoinColumn de Pregunta.opciones.
